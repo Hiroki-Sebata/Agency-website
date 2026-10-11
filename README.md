@@ -174,6 +174,7 @@ font loading and the `?service=` prefill.
 | File | What it is |
 |------|------------|
 | `assets/img/favicon.svg` | Browser tab icon |
+| `favicon.ico` | The same mark as an .ico, at the repository root — browsers request `/favicon.ico` on their own whatever the markup says, so without it every first page view logs a 404 |
 | `assets/img/logo.svg` | Mark + wordmark, for invoices and email signatures |
 | `assets/img/og-image.png` | 1200×630 social preview (Slack, LinkedIn, WhatsApp, X) |
 | `assets/img/icon-*.png` | Home-screen icons referenced by `site.webmanifest` |
