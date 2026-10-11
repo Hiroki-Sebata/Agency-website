@@ -1,0 +1,13 @@
+The webfonts in this directory — Inter Tight and JetBrains Mono — are
+licensed under the SIL Open Font License, Version 1.1.
+
+Inter Tight: Copyright (c) 2016 The Inter Project Authors
+  https://github.com/rsms/inter
+JetBrains Mono: Copyright (c) 2020 The JetBrains Mono Project Authors
+  https://github.com/JetBrains/JetBrainsMono
+
+The full licence text is available at https://openfontlicense.org and is
+distributed with each project at the URLs above. In short: these fonts may
+be used, studied, modified and redistributed freely, provided they are not
+sold by themselves and any modified versions are released under the same
+licence under a different name.

@@ -1,0 +1,5 @@
+# Northbound
+User-agent: *
+Allow: /
+
+Sitemap: https://hiroki-sebata.github.io/Agency-website/sitemap.xml

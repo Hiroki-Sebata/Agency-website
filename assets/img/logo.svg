@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196 32" role="img" aria-label="Northbound">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF8B65"/><stop offset="1" stop-color="#FF5A28"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="9" fill="url(#g)"/>
+  <path d="M16 8.6 8.9 22.9a.78.78 0 0 0 1.08 1.02L16 20.86l6.02 3.06A.78.78 0 0 0 23.1 22.9L16 8.6Z" fill="#170A04"/>
+  <text x="42" y="22" font-family="Inter Tight, Inter, system-ui, sans-serif" font-size="19" font-weight="600" letter-spacing="-0.6" fill="#EDEFF3">Northbound</text>
+</svg>

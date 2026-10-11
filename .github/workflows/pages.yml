@@ -1,0 +1,52 @@
+# Optional: deploy to GitHub Pages through Actions.
+#
+# You do not need this. The simpler route is Settings -> Pages -> Deploy from a
+# branch -> / (root), which needs no workflow at all.
+#
+# This one is triggered by hand (Actions -> Deploy to GitHub Pages -> Run
+# workflow) so it can never fail quietly in the background. To make it run on
+# every push, uncomment the `push:` block below and set Settings -> Pages ->
+# Source to "GitHub Actions".
+
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check links and markup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/check.mjs
+
+  deploy:
+    name: Deploy
+    needs: check
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
