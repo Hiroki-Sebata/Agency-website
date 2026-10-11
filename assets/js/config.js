@@ -10,10 +10,16 @@ window.SITE_CONFIG = {
      want submissions delivered to (sebasuta@gmail.com), confirm the email
      they send you, then paste the key below.
 
-     Until this is filled in, the form stays usable but falls back to
-     opening the visitor's email client instead of silently failing.
+     This key is safe to commit to a public repository: Web3Forms access
+     keys are designed to live in client-side JavaScript, and a key can only
+     ever deliver to the inbox that was verified against it. It is not a
+     secret, it is an address.
+
+     What it does NOT do on its own is stop someone else POSTing to your key
+     from their own page. Lock that down in the Web3Forms dashboard:
+     set Allowed Domains to your site's hostname and turn on spam protection.
      ---------------------------------------------------------------------- */
-  web3formsKey: "",
+  web3formsKey: "e8561faf-a1ab-4e7f-830f-5625e69e617e",
 
   /* Subject line applied to every submission that lands in your inbox. */
   formSubject: "New enquiry from the Northbound website",

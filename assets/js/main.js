@@ -287,6 +287,13 @@
   var ICON_OK = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 10.5l4 4 9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var ICON_ERR = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v5m0 3h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 
+  // Server messages arrive without trailing punctuation; without this the
+  // reason runs straight into our next sentence.
+  function punctuate(msg) {
+    msg = String(msg).trim();
+    return /[.!?]$/.test(msg) ? msg : msg + ".";
+  }
+
   function initForm() {
     var form = $("[data-form]");
     if (!form) return;
@@ -426,7 +433,7 @@
           } else {
             say("err",
               "<strong>That didn't go through.</strong> " +
-              ((res && res.message) ? res.message + " " : "") +
+              ((res && res.message) ? punctuate(res.message) + " " : "") +
               'You can <a class="tlink" href="#" data-mail data-mail-subject="Website enquiry">email us directly</a> instead.');
             wireConfigLinks();
           }

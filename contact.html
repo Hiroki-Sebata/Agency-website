@@ -302,18 +302,18 @@
 <section class="sec sec--sm sec--line">
   <div class="wrap">
     <!-- ================================================================
-         SETUP NOTICE — delete this whole block once both steps are done.
-         1. assets/js/config.js → web3formsKey  (makes the form send)
-         2. assets/js/config.js → bookingUrl    (makes "Book a call" work)
+         SETUP NOTICE — the contact form is live. One thing left:
+         assets/js/config.js -> bookingUrl   (makes "Book a call" work)
+         Delete this whole block once that is set.
          ================================================================ -->
     <div class="notice" data-reveal>
-      <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M12 3.2v2.3M12 18.5v2.3M4.8 7.6l2 1.15M15.2 15.25l2 1.15M4.8 16.4l2-1.15M15.2 8.75l2-1.15"/></svg>
+      <svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.2" width="17" height="15.3" rx="2.6"/><path d="M3.5 10.2h17M8 3.2v4M16 3.2v4"/></svg>
       <span>
-        <strong>Two things to switch on before launch.</strong>
-        In <code>assets/js/config.js</code>, paste your <a class="tlink" href="https://web3forms.com" rel="noopener" target="_blank">Web3Forms</a> access key
-        so the form below delivers to your inbox, and your scheduling link (Cal.com, Calendly&hellip;) so every
-        &ldquo;Book a call&rdquo; button opens a real calendar. Until then the form falls back to opening your visitor&rsquo;s
-        email app, and booking buttons scroll to the form. Then delete this notice.
+        <strong>One thing left to switch on.</strong>
+        The form below is connected and delivering. Add your scheduling link
+        (Cal.com, Calendly&hellip;) to <code>bookingUrl</code> in <code>assets/js/config.js</code>
+        and every &ldquo;Book a call&rdquo; button opens a real calendar instead of scrolling here.
+        Then delete this notice.
       </span>
     </div>
   </div>

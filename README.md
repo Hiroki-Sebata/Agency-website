@@ -18,11 +18,11 @@ privacy.html     Privacy notice  (template — needs your details)
 
 ## 1. Before you launch — the checklist
 
-Five things need your input. Everything else already works.
+Four things still need your input. Everything else already works.
 
 | # | What | Where | Until you do it |
 |---|------|-------|-----------------|
-| 1 | **Contact-form key** | `assets/js/config.js` → `web3formsKey` | Form opens the visitor's email app instead of sending |
+| 1 | ~~Contact-form key~~ | `assets/js/config.js` → `web3formsKey` | ✅ **Done** — connected and delivering to your inbox |
 | 2 | **Booking link** | `assets/js/config.js` → `bookingUrl` | "Book a call" buttons scroll to the contact form |
 | 3 | **Founder bios** | `about.html` → `FOUNDERS` comment block, plus the two cards on `index.html` | Says "edit me" on the page |
 | 4 | **Real reviews** | `reviews.html`, plus two cards on `index.html` | Page says the reviews are placeholders |
@@ -31,19 +31,20 @@ Five things need your input. Everything else already works.
 Each of those pages carries a visible dashed-border notice explaining what to do.
 **Delete the notice once you've done the thing** — that's how you know you're finished.
 
-### 1.1 Make the contact form send
+### 1.1 The contact form — done, with one thing to lock down
 
-1. Go to <https://web3forms.com> and enter the inbox you want enquiries in.
-2. Confirm the email they send you.
-3. Paste the access key into `assets/js/config.js`:
+The key is in `assets/js/config.js` and the form posts straight to Web3Forms
+from the browser. There's no server to run.
 
-```js
-web3formsKey: "paste-your-key-here",
-```
+The key being visible in this public repo is fine: a Web3Forms access key is
+designed to live in client-side JavaScript and can only ever deliver to the
+inbox you verified. It's an address, not a password.
 
-That's it. The form posts straight to Web3Forms from the browser — there's no
-server to run and no key that needs hiding (a Web3Forms access key is designed
-to be public; it only ever delivers to the address you verified).
+What it doesn't prevent is someone else POSTing to your key from their own
+page to spam your inbox. Shut that off in the Web3Forms dashboard:
+
+- **Allowed Domains** → `hiroki-sebata.github.io` (add your custom domain later)
+- Turn on the built-in **spam protection**
 
 The form already has: inline validation, a honeypot spam trap, a screen-reader
 status message, and a fallback that opens the visitor's email client if the
