@@ -64,6 +64,45 @@
   }
 
   /* ------------------------------------------------------------------------
+     Smooth in-page anchors
+
+     This used to be `html { scroll-behavior: smooth }`, but that also animates
+     the scroll the browser runs when an input takes focus. On a phone the
+     keyboard opens, the viewport resizes mid-animation, the field is dragged
+     out of sight and the keyboard closes again. Doing it here keeps anchors
+     smooth and leaves focus scrolling instant, which is what forms need.
+
+     Because we preventDefault, we also have to move focus ourselves — losing
+     that would break the skip link and every keyboard user following a jump.
+     ------------------------------------------------------------------------ */
+  function initSmoothAnchors() {
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      var link = e.target.closest('a[href^="#"]');
+      if (!link || link.getAttribute("href").length < 2) return;
+      if (link.hasAttribute("download") || link.target === "_blank") return;
+
+      var target = document.getElementById(link.getAttribute("href").slice(1));
+      if (!target) return;
+
+      e.preventDefault();
+
+      // Let any click handler closer to the target run first — the drawer
+      // closes on link clicks and releases the body scroll lock.
+      window.requestAnimationFrame(function () {
+        target.scrollIntoView({ block: "start", behavior: REDUCED ? "auto" : "smooth" });
+
+        if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+        target.focus({ preventScroll: true });
+
+        try { history.replaceState(null, "", link.getAttribute("href")); } catch (err) {}
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------------
      Mobile drawer
      ------------------------------------------------------------------------ */
   function initDrawer() {
@@ -303,11 +342,16 @@
     var submitLabel = submit ? submit.querySelector("[data-form-submit-label]") : null;
     var defaultLabel = submitLabel ? submitLabel.textContent : "";
 
-    function say(kind, html) {
+    function say(kind, html, scroll) {
       if (!status) return;
       status.className = "form__status is-shown " + (kind === "ok" ? "is-ok" : "is-err");
       status.innerHTML = (kind === "ok" ? ICON_OK : ICON_ERR) + "<div>" + html + "</div>";
-      status.scrollIntoView({ block: "nearest", behavior: REDUCED ? "auto" : "smooth" });
+      // Skipped when the caller is about to focus a field: two scrolls racing
+      // towards different targets drags the focused input out of the visual
+      // viewport on mobile, which dismisses the soft keyboard.
+      if (scroll !== false) {
+        status.scrollIntoView({ block: "nearest", behavior: REDUCED ? "auto" : "smooth" });
+      }
     }
 
     function clearFieldError(field) {
@@ -322,6 +366,9 @@
       var box = field.closest(".field");
       var err = box ? $("[data-field-error]", box) : null;
       if (err) err.textContent = msg;
+      // Reserve the line for good, so clearing the message mid-typing doesn't
+      // shift the page under the visitor's finger.
+      if (box) box.classList.add("has-error-space");
     }
 
     // Clear the error as soon as the visitor starts fixing it
@@ -356,8 +403,12 @@
       });
 
       if (firstBad) {
-        say("err", "Please check the highlighted fields and try again.");
-        firstBad.focus();
+        say("err", "Please check the highlighted fields and try again.", false);
+        // Scroll first, focus second. Focusing opens the mobile keyboard and
+        // shrinks the viewport; anything that scrolls after that can push the
+        // field out of view and close the keyboard again.
+        firstBad.scrollIntoView({ block: "nearest" });
+        firstBad.focus({ preventScroll: true });
         return false;
       }
       return true;
@@ -511,6 +562,7 @@
     document.documentElement.classList.remove("no-js");
     wireConfigLinks();
     initHeader();
+    initSmoothAnchors();
     initDrawer();
     initMega();
     initAccordions();

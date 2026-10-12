@@ -97,7 +97,9 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
+  /* No scroll-behavior here on purpose: it would also animate the scroll the
+     browser performs when an input takes focus, which fights the mobile soft
+     keyboard. In-page anchors are scrolled smoothly from JS instead. */
   scroll-padding-top: calc(var(--nav-h) + 1.5rem);
 }
 
@@ -1088,7 +1090,7 @@ a.card:hover .card__arrow, .card--link:hover .card__arrow { color: var(--accent)
   background: rgba(255, 255, 255, .04);
   border: 1px solid var(--line-strong);
   border-radius: var(--r-sm);
-  font-size: var(--t-sm);
+  font-size: max(1rem, var(--t-sm));
   transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .input::placeholder { color: var(--text-faint); }
@@ -1114,8 +1116,11 @@ select.input { appearance: none; background-image: none; cursor: pointer; }
   pointer-events: none;
 }
 .input[aria-invalid="true"] { border-color: #ff6b6b; }
-.field__error { font-size: var(--t-xs); color: #ff8f8f; }
+.field__error { font-size: var(--t-xs); color: #ff8f8f; line-height: 1.45; }
 .field__error:empty { display: none; }
+/* Pin the reserved height to exactly one line of the error text, so clearing
+   the message leaves the fields below it exactly where they were. */
+.field.has-error-space .field__error:empty { display: block; min-height: 1.45em; }
 
 .form__grid { display: grid; gap: var(--s-5); grid-template-columns: 1fr; }
 
